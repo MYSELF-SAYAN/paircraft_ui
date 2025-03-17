@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { AuthWrapper } from "@/context";
 import "./globals.css";
-
+import { Toaster } from "../components/ui/sonner";
+import { SocketProvider } from "@/context/SocketProvider";
+import { CustomCursor } from "@/components/ui/custom-cursor";
+import Navbar from "@/components/Navbar";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -26,9 +30,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-auto`}
       >
-        {children}
+        <SocketProvider>
+          <AuthWrapper>
+            <CustomCursor/>
+            {/* <Navbar /> */}
+            {children}</AuthWrapper>
+          </SocketProvider>
+        <Toaster />
       </body>
     </html>
   );

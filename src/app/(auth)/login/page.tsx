@@ -9,12 +9,14 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import Icon from '@/components/icon';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 const Page = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [baseUrl, setBaseUrl] = useState('');
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const router=useRouter()
     useEffect(() => {
         setBaseUrl(process.env.NEXT_PUBLIC_API_URL || '');
     }, []);
@@ -28,7 +30,7 @@ const Page = () => {
             if (response.status === 200) {
                 localStorage.setItem('token', response.data.token);
                 toast.success('Login successful');
-                window.location.href = '/';
+               router.push('/')
             }
         } catch (error) {
             toast.error('Login failed');

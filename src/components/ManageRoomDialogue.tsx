@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import axios from "axios"
 import { toast } from "sonner"
 import { useSocket } from "@/context/SocketProvider"
-
+import { useAuthContext } from "@/context"
 interface ManageRoomDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -55,7 +55,7 @@ interface UpdatedRole {
 }
 export function ManageRoomDialog({ open, onOpenChange, roomId, onRoomDelete }: ManageRoomDialogProps) {
   const socket = useSocket()
-  const token = localStorage.getItem("token")
+  const { token }=useAuthContext()
   const [step, setStep] = useState<"requests" | "members">("requests")
   const [loading, setLoading] = useState(false)
   const [roomData, setRoomData] = useState<Room>()
@@ -196,7 +196,7 @@ export function ManageRoomDialog({ open, onOpenChange, roomId, onRoomDelete }: M
           setLoading(false)
         })
     }
-  }, [roomId])
+  }, [roomId,token])
   const updateMemberRole = (id: string, value: string): void => {
     if (roomData?.members.find((member) => member.id === id)?.role === value) return
     setRoomData((prev) => {

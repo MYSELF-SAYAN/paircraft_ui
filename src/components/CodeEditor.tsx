@@ -9,9 +9,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Button } from "./ui/button";
 import axios from "axios";
 import { useAuthContext } from "@/context";
-import { reuleaux } from 'ldrs'
 
-reuleaux.register()
+import { SquareArrowOutUpRight } from 'lucide-react';
+
 
 // Default values shown
 
@@ -164,20 +164,16 @@ const CodeEditor: React.FC<MonacoEditorProps> = ({ socket, roomId, username, rol
                     role !== "VIEWER" &&
                     <div>
                         {
-                            isRunning ? <div className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"><l-reuleaux
-                            size="20"
-                            stroke="5"
-                            stroke-length="0.15"
-                            bg-opacity="0.1"
-                            speed="1.2" 
-                            color="white" 
-                          ></l-reuleaux></div> :  <Button onClick={runCode} className=" text-white px-4 py-2 rounded">
-                            Run
-                        </Button>
+                            isRunning ? <div className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">     <div className="w-5 h-5 border-8 border-dashed rounded-full animate-spin border-white "></div></div> : <Button onClick={runCode} className=" text-white px-4 py-2 rounded">
+                                Run
+                            </Button>
                         }
-                   
+
                     </div>
                 }
+                {/* <Button  className=" "> */}
+                    <SquareArrowOutUpRight/>
+                {/* </Button> */}
             </div>
             <div className="flex flex-col flex-grow h-full space-y-4">
                 <ResizableBox

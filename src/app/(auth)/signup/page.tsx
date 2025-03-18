@@ -9,9 +9,7 @@ import { toast } from 'sonner';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Apple, ArrowLeft, Eye, EyeOff } from 'lucide-react';
-import { leapfrog } from 'ldrs'
 
-leapfrog.register()
 
 // Default values shown
 
@@ -59,7 +57,7 @@ const Page = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
+ 
   return (
     //     <div className='flex bg-black h-screen'>
     //       <div className='w-1/2 flex items-center justify-center'>
@@ -222,13 +220,13 @@ const Page = () => {
       >
         <div className='p-5 flex items-center justify-between w-full absolute top-8 right-0 cursor-pointer z-50'>
           {/* Brand logo */}
-          <Icon  />
+          <Icon />
 
           {/* Navigation button */}
           <Link href="/" className="">
-          <div className='cursor-pointer  text-white flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-sm z-50'>
-            <ArrowLeft size={16} />
-            Back to landing page
+            <div className='cursor-pointer  text-white flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-sm z-50'>
+              <ArrowLeft size={16} />
+              Back to landing page
             </div>
           </Link>
         </div>
@@ -361,11 +359,7 @@ const Page = () => {
               {
                 loading ?
                   // Default values shown
-                  <l-leapfrog
-                    size="40"
-                    speed="1.5"
-                    color="white"
-                  ></l-leapfrog> : <p>Create account</p>
+                  <div className="w-8 h-8 border-8 border-dashed rounded-full animate-spin border-white"></div> : <p>Create account</p>
               }
 
 

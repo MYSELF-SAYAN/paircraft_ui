@@ -15,9 +15,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import { House } from 'lucide-react';
-import { trefoil } from 'ldrs'
 
-trefoil.register()
 
 
 
@@ -182,16 +180,9 @@ const page = () => {
           </div> :
 
             <div className='flex items-center justify-center h-full flex-col'>
-      
-            <l-trefoil
-              size="120"
-              stroke="5"
-              stroke-length="0.15"
-              bg-opacity="0.1"
-              speed="1.4"
-              color="#7C3AED"
-            ></l-trefoil>
-            <p className='text-2xl font-extrabold'>Loading</p>
+
+              <div className="w-20 h-20 border-8 border-dashed rounded-full animate-spin border-[#7A00E6] "></div>
+              <p className='text-2xl font-extrabold'>Loading</p>
             </div>
         }
 

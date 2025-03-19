@@ -110,13 +110,27 @@ const Page = ({ params }: Props) => {
             }
             )
         })
-
+        socket.on("user_left", (data) => {
+            const toastId = toast(`A user left the room`, {
+                action: {
+                    label: "Close",
+                    onClick: () => toast.dismiss(toastId),
+                },
+                style: {
+                    background: "red",
+                    color: "white",
+                    border: "1px solid red"
+                },
+                position: "top-right"
+            })
+        })
         return () => {
             socket.off("first_response");
             socket.off("user_joined");
             socket.off("join_error");
             socket.off("joining_request_sent");
             socket.off("accepted_request");
+            socket.off("user_left");
         };
     }, [socket, userId]);
 

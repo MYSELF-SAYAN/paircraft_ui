@@ -8,9 +8,10 @@ interface RoomCardProps {
   totalMembers: number
   userRole: 'OWNER' | 'EDITOR' | 'VIEWER'
   onManage: () => void
+  onLeave: () => void
 }
 
-export function RoomCard({ id, name, totalMembers, userRole, onManage }: RoomCardProps) {
+export function RoomCard({ id, name, totalMembers, userRole, onManage,onLeave }: RoomCardProps) {
 
   const role = userRole;
   const members = totalMembers;
@@ -34,7 +35,7 @@ export function RoomCard({ id, name, totalMembers, userRole, onManage }: RoomCar
             Join
           </Button>
         </Link>
-        <Button variant="outline"  size={"sm"}>
+        <Button onClick={onLeave} variant="outline"  size={"sm"}>
           Leave
         </Button>
         {role === "OWNER" && (

@@ -9,10 +9,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Button } from "./ui/button";
 import axios from "axios";
 import { useAuthContext } from "@/context";
-
+import { useRouter } from "next/navigation";
 import { SquareArrowOutUpRight } from 'lucide-react';
 
-
+import { toast } from 'sonner';
 // Default values shown
 
 
@@ -32,7 +32,7 @@ const CodeEditor: React.FC<MonacoEditorProps> = ({ socket, roomId, username, rol
     const [output, setOutput] = useState<string>("");
     const [isRunning, setIsRunning] = useState<boolean>(false);
     const isUpdatingRef = useRef(false);
-
+    const router = useRouter()
     // Handle real-time code updates
     useEffect(() => {
         socket?.on("code_updated", ({ code: newCode }: { code: string }) => {
@@ -129,7 +129,26 @@ const CodeEditor: React.FC<MonacoEditorProps> = ({ socket, roomId, username, rol
             socket?.emit("language_change", { roomId, language: value });
         };
     }
+    const leaveRoom = () => {
+        socket?.emit("leave_room", { roomId });
+        router.push("/dashboard")
+    }
+    const copyLink = () => {
+        navigator.clipboard.writeText(window.location.href);
+        const toastId = toast("Copied room link to clipboard", {
+            action: {
+                label: "Close",
+                onClick: () => toast.dismiss(toastId),
+            },
+            style: {
+                background: "green",
+                color: "white",
+                border: "1px solid green"
+            },
+            position: "top-right"
 
+        })
+    }
     useEffect(() => {
         console.log("Token in CodeEditor:", token); // Debugging token availability
         if (!token) return; // Prevent API call if token is empty
@@ -150,30 +169,35 @@ const CodeEditor: React.FC<MonacoEditorProps> = ({ socket, roomId, username, rol
 
     return (
         <div className="flex flex-col space-y-4 p-4 h-screen ">
-            <div className="flex items-center space-x-5">
-                <Select value={language} onValueChange={changeLanguage()} disabled={role === "VIEWER"}>
-                    <SelectTrigger className="w-[140px] bg-gray-800 text-white">
-                        <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-800 text-white">
-                        <SelectItem value="javascript">JavaScript</SelectItem>
-                        <SelectItem value="python">Python</SelectItem>
-                    </SelectContent>
-                </Select>
-                {
-                    role !== "VIEWER" &&
-                    <div>
-                        {
-                            isRunning ? <div className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">     <div className="w-5 h-5 border-8 border-dashed rounded-full animate-spin border-white "></div></div> : <Button onClick={runCode} className=" text-white px-4 py-2 rounded">
-                                Run
-                            </Button>
-                        }
+            <div className="flex items-center justify-between space-x-5">
+                <div className="flex items-center  space-x-5">
+                    <Select value={language} onValueChange={changeLanguage()} disabled={role === "VIEWER"}>
+                        <SelectTrigger className="w-[140px] bg-gray-800 text-white">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="bg-gray-800 text-white">
+                            <SelectItem value="javascript">JavaScript</SelectItem>
+                            <SelectItem value="python">Python</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    {
+                        role !== "VIEWER" &&
+                        <div>
+                            {
+                                isRunning ? <div className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">     <div className="w-5 h-5 border-8 border-dashed rounded-full animate-spin border-white "></div></div> : <Button onClick={runCode} className=" text-white px-4 py-2 rounded">
+                                    Run
+                                </Button>
+                            }
 
-                    </div>
-                }
-                {/* <Button  className=" "> */}
-                    <SquareArrowOutUpRight/>
-                {/* </Button> */}
+                        </div>
+                    }
+                    <Button onClick={leaveRoom}>Leave</Button>
+                </div>
+                <div>
+                    <Button onClick={copyLink} className=" ">
+                        <SquareArrowOutUpRight />
+                    </Button>
+                </div>
             </div>
             <div className="flex flex-col flex-grow h-full space-y-4">
                 <ResizableBox

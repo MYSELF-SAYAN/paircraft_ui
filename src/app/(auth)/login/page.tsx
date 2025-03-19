@@ -16,7 +16,7 @@ const Page = () => {
     const [baseUrl, setBaseUrl] = useState('');
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const router=useRouter()
+    const router = useRouter()
     useEffect(() => {
         setBaseUrl(process.env.NEXT_PUBLIC_API_URL || '');
     }, []);
@@ -30,7 +30,7 @@ const Page = () => {
             if (response.status === 200) {
                 localStorage.setItem('token', response.data.token);
                 toast.success('Login successful');
-               router.push('/')
+                router.push('/')
             }
         } catch (error) {
             toast.error('Login failed');
@@ -206,14 +206,15 @@ const Page = () => {
                             </button>
                         </div>
 
-
-
-                        {/* Create account button */}
                         <Button
                             onClick={handleLogin}
                             className="w-full h-12 bg-purple-500 hover:bg-purple-600 text-white"
                         >
-                            Login
+                            {
+                                loading ?
+                                    // Default values shown
+                                    <div className="w-8 h-8 border-8 border-dashed rounded-full animate-spin border-white"></div> : <p>Login</p>
+                            }
                         </Button>
 
                     </motion.div>

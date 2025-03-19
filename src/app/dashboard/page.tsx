@@ -22,7 +22,7 @@ import { House } from 'lucide-react';
 // Default values shown
 
 const page = () => {
-  const { token, isAuthenticated } = useAuthContext()
+  const { token, isAuthenticated, userId } = useAuthContext()
 
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL
   const [createOpen, setCreateOpen] = useState(false)
@@ -103,6 +103,33 @@ const page = () => {
     }
     setFilter(e)
   }
+  const leaveRoom = (roomId: string) => {
+
+    return new Promise((resolve, reject) => {
+      axios.post(`${BASE_URL}/rooms/leave/${roomId}`, {}, { headers: { Authorization: `Bearer ${token}` } }).then((res) => {
+        setRooms((prevRooms) => prevRooms.filter((room) => room.id !== roomId));
+        toast("Room left successfully", {
+          description: `Id: ${roomId}`,
+
+          style: {
+            background: "green",
+            color: "white",
+            border: "1px solid green"
+          },
+          position: "top-right"
+
+        })
+        window.location.reload();
+        resolve(res)
+      }).catch((err) => {
+        if (err.response.status === 400) {
+          toast.error(err.response.data.message)
+          console.log(err)
+          reject(err)
+        }
+      })
+    })
+  }
   useEffect(() => {
 
     const fetchRooms = () => {
@@ -124,7 +151,7 @@ const page = () => {
     }
 
     fetchRooms();
-  }, [token])
+  }, [token, userId])
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
       <div className="container mx-auto px-4 py-8">
@@ -169,6 +196,7 @@ const page = () => {
                 <RoomCard
                   key={room?.id}
                   {...room}
+                  onLeave={() => leaveRoom(room.id)}
                   onManage={() => {
                     setSelectedRoom(room.id)
                     setManageOpen(true)

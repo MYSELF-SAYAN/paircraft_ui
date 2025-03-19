@@ -38,7 +38,7 @@ export function AuthWrapper({ children }: { children: React.ReactNode }) {
                 logout(); 
             });
         }
-        console.log("Context",isAuthenticated)
+       
     }, []);
     return (
         <AuthContext.Provider value={{ token, setToken, isAuthenticated, setIsAuthenticated, userId, username, logout }}>

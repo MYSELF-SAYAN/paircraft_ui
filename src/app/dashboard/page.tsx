@@ -64,9 +64,9 @@ const page = () => {
             totalMembers: 1,
             userRole: "OWNER"
           }
-          console.log("Response of api", response.data)
           setRooms((prevRooms) => [...prevRooms, newRoom]);
           resolve(response.data);
+          window.location.reload();
         })
         .catch((error) => {
           reject(error);

@@ -19,7 +19,11 @@ PairCraft is a **next-gen collaborative coding environment** that enables develo
 ## <a name="demo"> **Demo** </a>  
 
 🔗 **Live Site:** [PairCraft](https://paircraft-ui.vercel.app/)  
-📹 **Demo Video:** *(Add link if available)*  
+📹 **Demo Video:** 
+
+
+https://github.com/user-attachments/assets/296372c3-24e8-497f-a25f-1a69a8ae5e55
+
 
 ---  
 
